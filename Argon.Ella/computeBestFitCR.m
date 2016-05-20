@@ -1,0 +1,130 @@
+function [Te_best, ne_best, n0_best, sums_calc_best, actual_emission, lines, levels_best, R2] = computeBestFitCR(wavelengths, spectral_emission, Te, ne, n0, level_table, use_ratios_only)
+
+[actual_emission, lines] = calc_summed_emission_spec(wavelengths, spectral_emission);
+
+% wavelength A(i,j) level ratio
+lineData = [
+    696.5431 6.39e+06 4 1;
+    706.7218 3.80e+06 3 5/8;
+    714.7042 6.25e+5 3 5/8;
+    727.2936 1.83e6 4 1;
+    738.3980 8.47e+06 3 5/8;
+    750.3869 4.45e+07 6 1;
+    751.4652 4.02e+07 5 1;
+    763.5106 2.45e+07 2 5/20;
+    772.3761 5.18e+06 2 3/20;
+    772.4207 1.17e+07 4 1;
+    794.8176 1.86e+07 3 3/8;
+    800.6157 4.90e+06 2 5/20;
+    801.4786 9.28e+06 2 5/20;
+    810.3693 2.5e+07 2 3/20;
+    811.5311 3.31e+07 2 7/20;
+    826.4522 1.53e+07 4 1;
+    840.8210 2.23e+07 3 5/8;
+    842.4648 2.15e+07 2 5/20;
+    852.1442 1.39e+07 3 3/8;
+    866.7943 2.43e6 2 3/20;
+    912.2967 1.89e+7 1 1;
+    922.4499 5.03e+6 2 5/20;
+    935.4220 1.06e6 2 3/20;
+    965.7786 5.43e6 1 1;
+    978.4503 1.47e6 2 5/20];
+    
+    
+    Te_best_i = 0;
+    ne_best_i = 0;
+    n0_best_i = 0;
+    SSerr_best = Inf;
+    sums_calc_best = zeros(20,1);
+    
+    
+    for Te_i = 1:size(Te, 2)
+    %for Te_i = 6:6
+        for ne_i = 1:size(ne, 2)
+            for n0_i = 1:size(n0, 2)
+                
+                %Calculate lines from solution
+                calced_lines = zeros(25, 1);
+                for i = 1:25
+                    calced_lines(i) = lineData(i,2)*lineData(i,4)*level_table(lineData(i,3), Te_i, ne_i, n0_i);
+                end
+                    
+                sums_calc = [
+                    calced_lines(1);
+                    calced_lines(2);
+                    calced_lines(3);
+                    calced_lines(4);
+                    calced_lines(5);
+                    calced_lines(6) + calced_lines(7);
+                    calced_lines(8);
+                    calced_lines(9) + calced_lines(10);
+                    calced_lines(11);
+                    calced_lines(12) + calced_lines(13);
+                    calced_lines(14) + calced_lines(15);
+                    calced_lines(16);
+                    calced_lines(17) + calced_lines(18);
+                    calced_lines(19);
+                    calced_lines(20);
+                    calced_lines(21);
+                    calced_lines(22);
+                    calced_lines(23);
+                    calced_lines(24);
+                    calced_lines(25)];
+
+                if use_ratios_only
+                    % compare all line ratios
+                    SSerr = 0;
+
+                    for i = 1:20
+                        for j = 1:20
+                            % i = j adds nothing
+                            SSerr = SSerr + (actual_emission(i)/actual_emission(j) - sums_calc(i)/sums_calc(j))^2;
+                        end %j
+                    end %i
+
+                    if (SSerr < SSerr_best)
+                        SSerr_best = SSerr;
+                        Te_best_i = Te_i;
+                        ne_best_i = ne_i;
+                        n0_best_i = n0_i;
+                        sums_calc_best = sums_calc;
+                    end
+
+                else
+                    SSerr = 0;
+
+                    for i = 1:20
+                        SSerr = SSerr + (actual_emission(i) - sums_calc(i))^2;
+                    end %i
+                    
+
+                    if (SSerr < SSerr_best)
+                        SSerr_best = SSerr;
+                        Te_best_i = Te_i;
+                        ne_best_i = ne_i;
+                        n0_best_i = n0_i;
+                        sums_calc_best = sums_calc;
+                        levels_best(1) = level_table(1, Te_i, ne_i, n0_i);
+                        levels_best(2) = level_table(2, Te_i, ne_i, n0_i);
+                        levels_best(3) = level_table(3, Te_i, ne_i, n0_i);
+                        levels_best(4) = level_table(4, Te_i, ne_i, n0_i);
+                    end
+                end %use ratios
+            end %n0
+        end %ne
+    end %Te
+    
+    Te_best = Te(Te_best_i);
+    ne_best = ne(ne_best_i);
+    n0_best = n0(n0_best_i);
+    
+    mean = sum(actual_emission)/20;
+    
+    SStot = 0;
+    
+    for i=1:20
+        SStot = SStot + (actual_emission(i) - mean)^2;
+    end
+    
+    R2 = 1 - SSerr_best/SStot;
+  

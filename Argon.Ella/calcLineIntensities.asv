@@ -1,0 +1,43 @@
+function [lines, intensities, continuous] = calcLineIntensities(pop, wavelengths)
+
+% wavelength A(i,j) level ratio
+lineData = [
+    696.5431 6.39e+06 9 1;
+    706.7218 3.80e+06 8 5/8;
+    738.3980 8.47e+06 8 5/8;
+    750.3869 4.45e+07 11 1;
+    751.4652 4.02e+07 10 1;
+    763.5106 2.45e+07 7 5/20;
+    772.3761 5.18e+06 7 3/20;
+    772.4207 1.17e+07 9 1;
+    794.8176 1.86e+07 8 3/8;
+    800.6157 4.90e+06 7 5/20;
+    801.4786 9.28e+06 7 5/20;
+    810.3693 2.5e+07 7 3/20;
+    811.5311 3.31e+07 7 7/20;
+    826.4522 1.53e+07 9 1;
+    840.8210 2.23e+07 8 5/8;
+    842.4648 2.15e+07 7 5/20;
+    852.1442 1.39e+07 8 3/8];
+
+    [n, m] = size(lineData);
+    lines = zeros(n, 1);
+    intensities = zeros(n, 1);
+    
+    for i = 1:n
+        lines(i) = lineData(i,1);
+        intensities(i) = lineData(i,2)*lineData(i,4)*pop(lineData(i,3));
+    end
+    
+    [rows, cols] = size(wavelengths);
+    
+    continuous = zeros(rows, 1);
+    
+    for i = 1:n
+        gamma = (1e-9)*(lines(i))^2*lineData(i,2)/(2*3.14159*(3e8));
+        for l = 1:rows
+            
+            continuous(l) = continuous(l) + intensities(i)*gamma/(3.14159*((wavelengths(l) - lines(i))^2 + gamma^2));
+        end
+        
+    end

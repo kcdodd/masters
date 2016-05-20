@@ -1,0 +1,62 @@
+# depslib dependency file v1.0
+1346551988 source:/home/kcdodd/Documents/Programming/FokkerPlanck/main.cpp
+	<iostream>
+	"dynarray.hpp"
+	"dynmatrix.hpp"
+	"LoadInelasticRates.hpp"
+	"FokkerPlanck.hpp"
+	"FokkerPlanck.cpp"
+	"SaveF.hpp"
+	<cmath>
+	"Constants.hpp"
+	<sstream>
+	<stdio.h>
+	<boost/thread/thread.hpp>
+	<boost/bind.hpp>
+	<time.h>
+
+1346552147 /home/kcdodd/Documents/Programming/FokkerPlanck/dynarray.hpp
+	<algorithm>
+	<cmath>
+	<vector>
+
+1344652470 /home/kcdodd/Documents/Programming/FokkerPlanck/dynmatrix.hpp
+	<algorithm>
+
+1345607964 /home/kcdodd/Documents/Programming/FokkerPlanck/LoadInelasticRates.hpp
+	"dynarray.hpp"
+	<vector>
+	<string>
+	<iostream>
+	<fstream>
+
+1346558987 source:/home/kcdodd/Documents/Programming/FokkerPlanck/FokkerPlanck.cpp
+	"FokkerPlanck.hpp"
+	"Constants.hpp"
+	<cmath>
+	<iostream>
+	<boost/thread/thread.hpp>
+	<boost/bind.hpp>
+
+1346550431 /home/kcdodd/Documents/Programming/FokkerPlanck/FokkerPlanck.hpp
+	"dynarray.hpp"
+	"dynmatrix.hpp"
+	<vector>
+
+1335476902 /home/kcdodd/Documents/Programming/FokkerPlanck/Constants.hpp
+
+1346553597 /home/kcdodd/Documents/Programming/FokkerPlanck/FokkerPlanck.cpp
+	"FokkerPlanck.hpp"
+	"Constants.hpp"
+	<cmath>
+	<iostream>
+	<boost/thread/thread.hpp>
+	<boost/bind.hpp>
+
+1345822252 /home/kcdodd/Documents/Programming/FokkerPlanck/SaveF.hpp
+	"dynarray.hpp"
+	<vector>
+	<string>
+	<iostream>
+	<fstream>
+

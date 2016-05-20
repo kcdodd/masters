@@ -1,0 +1,686 @@
+function [level_table, L_avg] = arcrmodel_new5(Te_list, ne_list, n0_list, ion_fraction, plasma_radius, allCombos, start_level, end_level)
+% Te_list(eV): list of electron temperatures to compute solutions.
+% ne_list (cm^-3): list of electron densities to compute solutions.
+% n0_list (cm^-3): list of neutral densities to compute solutions.
+% ion_fraction: fraction of electron density to use as ion density.
+% ion_fraction <= 1.
+% plasma_radius (cm): describes how big the plasma is to determin escape factors and meta-stable diffusion.
+% allCombos: true = compute solution for every combination of Te, ne, and
+% n0. false = only compute each set of {te, ne, and n0}.
+% start_level: first level to keep from solutions.
+% end_level: last level to keep from solutions.
+% return level_table: table of all precomputed populations
+%==========================================================
+% Ar I Collisional radiative model (1D)
+% received by Ella Sciamma(EMS)from Amy Keesee
+% modified October 2007 by EMS 
+% --> convertion from fortran to matlab
+% --> took off radial dependency
+% 
+% get ne and Te from "ne_Te_filename" (now specified as aruments KCD)
+% "factor" is used to calculate the neutral density from ne (neutral
+% density is now explicitly specified KCD)
+% --> if factor=0.25, n0=ne*0.25 => degree of ionization
+%       ne/(ne+n0)=80%
+% "xrad" is the radius of the plasma column (now plasma_radius KCD)
+% --> used in the calculation of the metastable diffusion
+% "press" is the fill pressure
+% --> 0.05 mTorr for VX-100
+% --> 1 mTorr for Helicon old and new and Helimak
+%
+%----------------------------------------------
+% Modified by K. Carter Dodd (KCD), Oct. 2011
+%----------------------------------------------
+% Now computes a lookup table of solutions.
+%
+% Modified sequence of operations to be more efficient in
+% computing multiple solutions. Only computes <sigma*v> once
+% per designated electron temperature for all rates, and multplies by ne
+% for each designated electron density. Finally, computes solutions
+% for each designated neutral density.
+%
+% Added ability to designate how many levels,
+% and which processes, to include in the solution.
+%
+%
+% Changed function arguments and names.
+%
+% Computation of electron energy distribution function now in this file,
+% Changed distribution to 3D isotropic, and now uses adaptive quadrature for integration
+% instead of rectangle method.
+%
+% Corrected issue that mishandled calculation of escape factor in the limit
+% of being optically thin.
+%
+% Corrected issue that interchaged excitation and de-excitation cross-sections between some levels.
+%==========================================================
+
+% Which things to include in model
+Nuse=65; %how many levels to include: 1 up to max is 65.
+useThermal = 1; % Use collisions with thermal atoms. 1 to use process, 0 to not use it.
+useDiff = 1; % use diffusion of meta-stable levels
+useMeta = 1; % use losses between meta-stable levels.
+
+
+% how many of each parameter are there
+numTe = size(Te_list, 2);
+numNe = size(ne_list, 2);
+numN0 = size(n0_list, 2);
+
+if (~allCombos && (numTe ~= numNe || numTe ~=numN0))
+    % if not computing all combonations then must have same number of
+    % electron temperature, density and neutral density parameters.
+    disp ('lists of pairs must have same length');
+    return;
+end
+
+if (end_level < start_level)
+    disp('end level must be higher then start');
+end
+
+if (end_level > Nuse)
+    disp('cannot compute levels not included in model');
+end
+
+% how many levels from each solutions will be kept.
+num_levels = end_level - start_level + 1;
+
+% initialize total solution matrix
+if allCombos
+    level_table = zeros(num_levels, numTe, numNe, numN0);
+else
+    level_table = zeros(num_levels, numTe);
+end
+
+% INITIALIZATION - PARAMETERS
+%============================
+% Total number of level parents considered
+Ntot=65;
+
+% Number of energy point considered for EEDF
+NE=739;
+
+% Population variable
+pop(Nuse,1)=zeros;
+
+% Metastable diffusion, 2- and 3-body recombination coefficient rates
+D(4)=zeros;
+k2b(4)=zeros;
+k3b(4)=zeros;
+
+% statistical weight factor
+fac(Ntot)=zeros;
+
+% Input file variables
+Eion(Ntot)=zeros;
+Eexc(Ntot)=zeros;
+aAf(Ntot,Ntot)=zeros;
+aP(Ntot,Ntot)=zeros;
+gam(Ntot)=zeros;
+g(Ntot)=zeros;
+g0(Ntot)=zeros;
+gi(Ntot)=zeros;
+A(Ntot,Ntot)=zeros;
+
+% old populations from previous time step
+popold(Nuse,1)=zeros;
+
+% Escape factor
+Esc(Ntot,1)=zeros;
+
+% Electron energy for EEDF
+Ee(NE+1)=zeros;
+
+
+
+% metastable variables
+bbi(4,1)=zeros;
+beta=zeros;
+gamma=zeros;
+
+
+%parameter(pi=3.1415926536)
+pi=3.1415926536;
+
+% Level parent indexes
+n2(Ntot)=zeros;
+
+%=================================================================
+% DATA INPUT
+%============
+%1. General: ambient gas temperature and time step
+%-------------------------------------------------------
+% xtgas is the ambient gas temperature in K 
+xtgas=348;
+pres = 1;
+dt=1e-3; % time steps
+
+%2. Data for metastables
+%------------------------
+    % Diffusion coefficient to account for loss of metastables
+    % D=74.6 cm^2 s^-1 at 1 Torr and 300 K
+    % => linear equation to calculate D using press and xtgas
+D(2)=74.6 * 1000/pres * xtgas/300;
+D(4)=74.6 * 1000/pres * xtgas/300;
+%dis('D(2)=')
+%disp(D(2))
+%disp('D(4)=')
+%disp(D(4))
+
+    % metastable-metastable atom collision rate coeff
+xkmet=6.4e-10;
+
+    % 2- and 3-body recombination with thermal ground state atoms
+k2b(2)=2.3e-15;
+k3b(2)=1.4e-32;
+k2b(4)=4.3e-15;
+k3b(4)=1.5e-32;
+
+
+%3. Input of data from files
+%---------------------------
+    % LEVELS1M.DAT: data necessary for cross sections
+    %- - - - - - - - - - - - - - - - - - - - - - - - -
+% read ionization+excitation energy, and degeneracies of the levels:
+% the data are:
+% n, Eion, Eexc, g(n), g0, gi, gam(n)
+levels1m = load('levels1m.dat');
+Eion=levels1m(:,2)'; %ATTENTION, Eion is a row, so we need to transpose the 2nd column of levels1m.dat
+Eexc=levels1m(:,3)'; %same thing with Eexc
+g=levels1m(:,4)'; % same thing with g
+g0=levels1m(:,5)'; % same thing for g0
+gi=levels1m(:,6)'; % same thing for gi
+gam=levels1m(:,7)'; %same thing for gam
+
+% Define fac(n),
+% gi(n) is equal to 2, 4 or 6 and no other value
+for n=1:Ntot
+    if gi(n) == 6
+        fac(n)=1.0;
+    end
+    if gi(n) == 4
+        fac(n)=0.667;
+    end
+    if gi(n) == 2
+        fac(n)=0.333;
+    end
+end
+
+    %LEVELS2M.DAT: aA*fmn (allowed) and aP (forbidden) coeff.for elec.excit:
+    %LEVELS3M.DAT: Amn (trans.probab.):
+    %- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+% data in levels2m.dat are: n, m, aAf*f(n,m), aP(n,m)
+% data in levels3m.dat are: n, m, Anm
+levels2m = load('levels2m.dat');
+levels3m = load('levels3m.dat');
+
+for n=1:Ntot-1
+    if n == 1
+        min=n;
+        max=Ntot-n;
+    else
+        min=min + Ntot - (n-1);
+        max=max + Ntot - n;
+    end
+    aAf(n,n+1:Ntot)=levels2m(min:max,3)';
+    aP(n,n+1:Ntot)=levels2m(min:max,4)';
+    A(n,n+1:Ntot)=levels3m(min:max,3)';
+end
+
+
+for Te_i = 1:numTe
+
+	disp(['Te= ' num2str(Te_list(Te_i))]); % track solutions progress
+    
+
+	%====================================================================
+	% CALCULATION OF COLLISION 'RATES'
+	%=================================
+
+	% rate coefficients without electron density factor.
+	kioneIntegral=zeros(Ntot,1);
+	rrec1eIntegral=zeros(Ntot,1);
+	rrec2eIntegral=zeros(Ntot,1);
+	kexceIntegral=zeros(Ntot,Ntot,1);
+	kdeexeIntegral=zeros(Ntot,Ntot,1);
+
+
+	rrec1e_PTmp=zeros(Ntot,1);
+	kexce_PTmp=zeros(Ntot,Ntot,1);
+	kdeexe_PTmp=zeros(Ntot,Ntot,1);
+
+	% ELECTRONS
+	%----------
+	for n = 1:Ntot
+
+		me = 9.11E-31; %electron mass is kg
+		qe = 1.602E-19; % electron charge
+		Te = Te_list(Te_i); % get electron temperature from list
+
+		%energy ranges to use in integrations (eV). Integration is
+		% broken up into ranges with limits E_i to E_j.
+		E_1 = 0.01;
+		E_2 = 0.1;
+		E_3 = 1;
+		E_4 = 4;
+		E_5 = 20;
+		E_6 = 700;
+
+		% define the v*f part of sigma*v*f to compute
+		% <sigma*v>: f=(3D isotropic maxwell-boltzmann). with v in cm/s, Te and Ee in eV.
+		vf = @(Ee) 100*qe*sqrt((2/pi)*(me/(qe*Te))^3).*(2*qe*Ee/(me*me)).*exp(-Ee/Te);
+		%vf = @(Ee) 100*1.6E-19*sqrt(me/(2*pi*1.6E-19*Te))*exp(-Ee/Te)/me; % 1-D version
+		
+		
+		% electron impact ionization
+		kioneU = @(Ee) vf(Ee).*Sione(Ee ,n,Eion(n)); % define sgima*v*f product
+		
+		% use adaptive quadrature for different energy ranges to capture
+		% structure of cross-sections and distribution function.
+		kioneIntegral(n) = quad(kioneU, Eion(n), Eion(n)+E_1, 1E-6)+quad(kioneU, Eion(n)+E_1, Eion(n)+E_2, 1E-6)+quad(kioneU, Eion(n)+E_2, Eion(n)+E_3, 1E-6)+quad(kioneU, Eion(n)+E_3, Eion(n)+E_4, 1E-6)+quad(kioneU, Eion(n)+E_4, Eion(n)+E_5, 1E-6)+quad(kioneU, Eion(n)+E_5, Eion(n)+E_6, 1E-6);
+		
+		
+		% radiative recombination
+		rrec1eU = @(Ee) vf(Ee).*Srec1e(Ee ,n,Eion(n),gam(n),g(n),gi(n)) * fac(n);
+		
+		rrec1eIntegral(n) = quad(rrec1eU, 0, E_1, 1E-6)+quad(rrec1eU, E_1, E_2, 1E-6)+quad(rrec1eU, E_2, E_3, 1E-6)+quad(rrec1eU, E_3, E_4, 1E-6)+quad(rrec1eU, E_4, E_5, 1E-6)+quad(rrec1eU, E_5, E_6, 1E-6);
+		
+		% three-body recombination
+		rrec2eU = @(Ee) vf(Ee).*Srec2e(Ee ,n,Eion(n),g(n),gi(n), Te) * fac(n);
+		
+		rrec2eIntegral(n) = quad(rrec2eU, 0, E_1, 1E-6)+quad(rrec2eU, E_1, E_2, 1E-6)+quad(rrec2eU, E_2, E_3, 1E-6)+quad(rrec2eU, E_3, E_4, 1E-6)+quad(rrec2eU, E_4, E_5, 1E-6)+quad(rrec2eU, E_5, E_6, 1E-6);
+		    
+		% define p*v*f to calculate collisional forces (p in kg*m/s, v in cm/s, E and Te in eV)
+		% ionization/recombination
+		pvf_rec = @(Ee) sqrt(2*me*qe*Ee)*100*qe*sqrt((2/pi)*(me/(qe*Te))^3).*(2*qe*Ee/(me*me)).*exp(-Ee/Te);
+		
+		rrec1eP = @(Ee) pvf_rec(Ee).*Srec1e(Ee ,n,Eion(n),gam(n),g(n),gi(n)) * fac(n);
+		rrec1e_PTmp(n) = quad(rrec1eP, 0, E_1, 1E-6)+quad(rrec1eP, E_1, E_2, 1E-6)+quad(rrec1eP, E_2, E_3, 1E-6)+quad(rrec1eP, E_3, E_4, 1E-6)+quad(rrec1eP, E_4, E_5, 1E-6)+quad(rrec1eP, E_5, E_6, 1E-6);
+		
+		for m = 1:Ntot
+			% only transition to other levels
+			if m ~= n
+				if (Eexc(m) > Eexc(n))
+					% this is an excitation transition
+					Emn=Eexc(m)-Eexc(n);
+
+					kexceU = @(Ee) vf(Ee).*Sexce(Ee ,n,m,Eexc(n),Eexc(m),aAf(n,m),aP(n,m),g(n),g(m));
+					kexceIntegral(n,m)= quad(kexceU, Emn, Emn+E_1, 1E-6)+quad(kexceU, Emn+E_1, Emn+E_2, 1E-6)+quad(kexceU, Emn+E_2, Emn+E_3, 1E-6)+quad(kexceU, Emn+E_3, Emn+E_4, 1E-6)+quad(kexceU, Emn+E_4, Emn+E_5, 1E-6)+quad(kexceU, Emn+E_5, Emn+E_6, 1E-6);
+
+					pvf_exc = @(Ee) (sqrt(2*qe*me)*(sqrt(Ee)-sqrt(Ee - Emn)))*100*qe*sqrt((2/pi)*(me/(qe*Te))^3).*(2*qe*Ee/(me*me)).*exp(-Ee/Te);
+					kexceP = @(Ee) pvf_exc(Ee).*Sexce(Ee ,n,m,Eexc(n),Eexc(m),aAf(n,m),aP(n,m),g(n),g(m));
+					kexce_PTmp(n,m)= quad(kexceP, Emn, Emn+E_1, 1E-6)+quad(kexceP, Emn+E_1, Emn+E_2, 1E-6)+quad(kexceP, Emn+E_2, Emn+E_3, 1E-6)+quad(kexceP, Emn+E_3, Emn+E_4, 1E-6)+quad(kexceP, Emn+E_4, Emn+E_5, 1E-6)+quad(kexceP, Emn+E_5, Emn+E_6, 1E-6);
+				else
+					% this is a de-excitation transition
+					kdeexeU = @(Ee) vf(Ee).*Sdeexe(Ee,n,m,Eexc(n),Eexc(m),aAf(m,n),aP(m,n),g(n),g(m),g0(n));
+					kdeexeIntegral(n,m) = quad(kdeexeU, 0, E_1, 1E-6)+quad(kdeexeU, E_1, E_2, 1E-6)+quad(kdeexeU, E_2, E_3, 1E-6)+quad(kdeexeU, E_3, E_4, 1E-6)+quad(kdeexeU, E_4, E_5, 1E-6)+quad(kdeexeU, E_5, E_6, 1E-6);
+					Enm=Eexc(n)-Eexc(m);
+
+					pvf_dexc = @(Ee) (sqrt(2*qe*me)*(sqrt(Ee + Enm)-sqrt(Ee)))*100*qe*sqrt((2/pi)*(me/(qe*Te))^3).*(2*qe*Ee/(me*me)).*exp(-Ee/Te);
+					kdeexeP = @(Ee) pvf_dexc(Ee).*Sdeexe(Ee,n,m,Eexc(n),Eexc(m),aAf(m,n),aP(m,n),g(n),g(m),g0(n));
+					kdeexe_PTmp(n,m) = quad(kdeexeP, 0, E_1, 1E-6)+quad(kdeexeP, E_1, E_2, 1E-6)+quad(kdeexeP, E_2, E_3, 1E-6)+quad(kdeexeP, E_3, E_4, 1E-6)+quad(kdeexeP, E_4, E_5, 1E-6)+quad(kdeexeP, E_5, E_6, 1E-6);
+				end
+
+			end
+
+		end
+		
+	end% n
+    
+
+	if allCombos
+        	% compute all combonations of electron density and temperature.
+        	computeNes = 1:size(ne_list,2);
+	else
+        	% only compute pairs of electron density and temperature.
+        	computeNes = [Te_i Te_i];
+	end % allCombos
+        
+	for ne_i = computeNes
+
+		nes = ne_list(ne_i);
+        
+        	%disp(['      ne= ' num2str(nes)])
+
+		% Define ion density. It can be different from ne if Nediv~=1
+		ni=nes*ion_fraction;
+
+		kione = nes*kioneIntegral;
+		rrec1e = ni*nes*rrec1eIntegral;
+		rrec2e = ni*nes*nes*rrec2eIntegral;
+		kexce = nes*kexceIntegral;
+		kdeexe = nes*kdeexeIntegral;
+
+
+		rrec1e_P = ni*nes*rrec1e_PTmp;
+		kexce_P = nes*kexce_PTmp;
+		kdeexe_P = nes*kdeexe_PTmp;
+
+		if allCombos
+			% compute all combonations of electron density and temperature.
+			computeN0s = 1:size(n0_list,2);
+		else
+			% only compute pairs of electron density, temperature, and neutral density.
+			computeN0s = [Te_i Te_i];
+		end % allCombos
+        
+		for n0_i = computeN0s
+
+			xn0 = n0_list(n0_i);
+            
+            		%disp(['            n0= ' num2str(xn0)])
+
+			kioni=zeros(Ntot,1); % ?
+			rreci=zeros(Ntot,1); % ?
+			kexci=zeros(Ntot,Ntot,1); % ?
+			kdeexi=zeros(Ntot,Ntot,1); % ?
+			kiona=zeros(Ntot,1); % ?
+			rreca=zeros(Ntot,1); % ?
+			kexca=zeros(Ntot,Ntot,1); % ?
+			kdeexa=zeros(Ntot,Ntot,1); % ?
+			kionth=zeros(Ntot,1);
+			rrecth=zeros(Ntot,1);
+			kexcth=zeros(Ntot,Ntot);
+			kdeexth=zeros(Ntot,Ntot);
+			Kloss=zeros(Ntot,1);
+
+			% THERMALIZED ATOMS (E=0.03 eV -> v=3.81e4 cm/s) (k: per pop=1, in s-1)
+			%-------------------
+			Eth=0.03; % thermal energy
+			vth=3.81e4; % thermal velocity
+
+			for n = 1:Ntot
+				kionth(n)=Sionth(Eion(n)) * vth * xn0;
+
+				rrecth(n)=Sreci(Eth,n,Eion(n),g(n),gi(n)) * vth * xn0 * nes * fac(n) * ni;
+
+				for m = 1:Ntot
+					if m ~= n
+						if (Eexc(m) > Eexc(n))
+							% excitation
+							kexcth(n,m)=Sexcth(n,m,Eexc(n),Eexc(m),gi(n),gi(m)) * vth * xn0;
+						else
+							% de-excitation
+							kdeexth(n,m)=Sdeexth(n,m,Eexc(n),Eexc(m),g(n),g(m),gi(n),gi(m),g0(n)) * vth * xn0;
+						end
+
+					end
+
+				end
+
+			end% n
+
+			%==========================================================================
+			% CALCULATION OF THE ESCAPE FACTORS
+			%==================================
+			for n = 2:Ntot
+				if (A(1,n) ~= 0.0)
+					xkR=(2.1e-17)* g(n) * A(1,n) * xn0 * plasma_radius/((Eexc(n)^3)*sqrt(xtgas));
+					xa=A(1,n) * (1 + (3.225e-14)* g(n) * xn0/(Eexc(n)^3))*(4.839e-9)/(Eexc(n)*sqrt(xtgas));
+					Tc=sqrt(xa/(sqrt(pi)*xkR));
+
+					if (xkR > 1.0)
+						% xkR does not cause imaginary numbers if > 1.
+						Td=1/(xkR*sqrt(pi*log(xkR)));
+						Tcd=2*xa / (pi*sqrt(log(xkR)));
+
+						Esc(n) = 1.9*Td*exp(-pi*(Tcd^2)/(4*Tc^2))+1.3*Tc*erf(sqrt(pi)*Tcd/(2*Tc));
+					else
+						% use limit as xkR -> 1 so that escape factor has
+						% continuous value from xkR > 1 to xkR < 1.
+						Esc(n) = 1.3*Tc;
+					end
+
+					if (Esc(n) > 1.0)
+						% if for some reason it becomes bigger than one, create
+						% explicit limit.
+						Esc(n) = 1.0;
+					end
+				else
+					Esc(n)=1.0;
+				end
+
+			end % n
+
+			%==================================================================
+			% CALCULATION OF THE LEVEL POPULATIONS
+			%======================================
+			% Initial values: all populations=0, pop(ground n=1)=xn0
+			%----------------------------------------------------------
+			pop(1)=xn0;
+			pop(2:Nuse)=zeros;
+
+			losses = zeros(Nuse, Nuse+1);
+
+			% ct terms (indep.of time) for all levels: loss by :
+			%----------------------------------------------------
+			for n = 2:Nuse
+                
+				Kloss(n)=0.0;
+
+				% electron, ion, fast atom, therm.atom ionization
+				%- - - - - - - - - - - - - - - - - - - - - - - - - 
+				Kloss(n)=Kloss(n) + kione(n) + kioni(n) + kiona(n) + useThermal*kionth(n);
+							    
+				losses(n, Nuse+1) = kione(n) + kioni(n) + kiona(n) + useThermal*kionth(n);
+
+				for m = 1:Nuse
+					if m ~= n
+						if (Eexc(m) > Eexc(n))
+							% excitation
+
+							% electron, ion, fast atom, therm.atom excitation to higher levels
+							%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+							Kloss(n)=Kloss(n) + kexce(n,m) + kexci(n,m) + kexca(n,m) + useThermal*kexcth(n,m);
+							losses(n, m) = kexce(n,m) + kexci(n,m) + kexca(n,m) + useThermal*kexcth(n,m);
+						else
+							%de-excitation
+
+							% elec,ion,fast atom,therm.atom deexcit, radiat.decay to lower levels
+							%- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+							% (escape factors to level 1 incorporated)
+
+							if m == 1
+								Arad=A(m,n) * Esc(n);
+							end
+
+							if m ~= 1
+								Arad=A(m,n);
+							end
+
+							losses(n, m) = Arad + kdeexe(n,m) + kdeexi(n,m) + kdeexa(n,m) + useThermal*kdeexth(n,m);
+
+							Kloss(n)= Kloss(n) + kdeexe(n,m) + kdeexi(n,m) + kdeexa(n,m) + useThermal*kdeexth(n,m) + Arad;
+						end
+					end
+
+				end % m
+			    
+			    
+			end % n
+
+
+			% ct.terms (indep.of time) for metast: 2,4
+			%-----------------------------------------
+
+			for n = 2:2:4
+				Kloss(n)=Kloss(n) + useMeta*(xn0*k2b(n) + xn0^2*k3b(n));
+				%losses(n, Nuse+1) = losses(n, Nuse+1) + xn0*k2b(n) + xn0^2*k3b(n);
+							    
+				bbi(n)=1/dt + useDiff*(D(n)/plasma_radius * (2/plasma_radius)) + Kloss(n);
+				%bbi(n)=1/dt + Kloss(n);
+			end % n, n = 2,4
+
+
+
+
+			% Each timestep (pop(1->n-1) known at t, pop(n+1->Ntot) known at t-1)
+			%--------------------------------------------------------------------
+			mult=10;
+			t=0.0;
+
+			ArI_Gain = zeros(Nuse, Nuse+1);
+			ArI_Loss = zeros(Nuse, Nuse+1);
+
+			for it = 1:10000000
+				t=t+dt;
+			    
+				% old values
+				%- - - - - - -
+				popold(2:Nuse)=pop(2:Nuse); %vectorized loop
+			    
+				% each level
+				%- - - - - - -
+			    
+				% metastable levels: 2,4
+				%++++++++++++++++++++++++
+
+				for n = 2:2:4
+		
+					% additional loss (met-met coll; incorpor.in bi)
+					%...............................................
+					if n == 2
+					    pop2=pop(n+2);
+					end
+		
+					if n == 4
+					    pop2=pop(n-2);
+					end
+		
+					bi=bbi(n) + useMeta*(2*xkmet*pop(n) + xkmet*pop2);
+					%bi=bbi(n);
+		
+					prod=0.0;
+
+					% gains into level
+					for m = 1:Nuse
+
+						if m ~= n
+							if (Eexc(n) > Eexc(m))
+								% excitation into level
+								prod=prod + (kexce(m,n) + kexci(m,n) + kexca(m,n) + useThermal*kexcth(m,n)) * pop(m);
+								ArI_Gain(n, m) = (kexce(m,n) + kexci(m,n) + kexca(m,n) + useThermal*kexcth(m,n)) * pop(m);
+								ArI_Loss(n,m) =  losses(n, m)*pop(n);
+							else
+								% de-excitation into level
+								prod=prod + (kdeexe(m,n) + kdeexi(m,n) + kdeexa(m,n) + useThermal*kdeexth(m,n) + A(n,m))*pop(m);
+								ArI_Gain(n, m) = (kdeexe(m,n) + kdeexi(m,n) + kdeexa(m,n) + useThermal*kdeexth(m,n) + A(n,m))*pop(m);
+								ArI_Loss(n,m) = losses(n, m)*pop(n);
+							end
+						end
+
+					end
+		
+					% prod: recomb  -> total prod
+					%.............................
+					prod=prod + rrec1e(n) + rrec2e(n) + rreci(n) + rreca(n) + useThermal*rrecth(n);
+		
+					ArI_Gain(n, Nuse+1) = rrec1e(n) + rrec2e(n) + rreci(n) + rreca(n) + useThermal*rrecth(n);
+					ArI_Loss(n, Nuse+1) = bi*pop(n);
+		
+					di=popold(n)/dt + prod;
+		
+					beta=bi;
+					gamma=di;
+					pop(n)=gamma/beta;
+		
+				end % n (n=2, 4)
+
+				% other levels
+				%+++++++++++++
+				for n = 3:Nuse
+		            		if n ~= 4 %we took care of n=2 and n=4 already
+
+						% production: sum over all levels
+						%..................................
+						prod=0.0;
+
+						for m = 1:Nuse
+							if m ~= n
+								if (Eexc(n) > Eexc(m))
+									% excitation into level
+									prod=prod + (kexce(m,n) + kexci(m,n) + kexca(m,n) + useThermal*kexcth(m,n)) * pop(m);
+									ArI_Gain(n, m) = (kexce(m,n) + kexci(m,n) + kexca(m,n) + useThermal*kexcth(m,n)) * pop(m);
+									ArI_Loss(n,m) = losses(n, m)*pop(n);
+								else
+									% de-excitation into level
+									prod=prod + (kdeexe(m,n) + kdeexi(m,n) + kdeexa(m,n) + useThermal*kdeexth(m,n) + A(n,m))*pop(m);
+									ArI_Gain(n,m) = (kdeexe(m,n) + kdeexi(m,n) + kdeexa(m,n) + useThermal*kdeexth(m,n) + A(n,m))*pop(m);
+									ArI_Loss(n,m) = losses(n, m)*pop(n);
+								end
+							end
+						end
+
+
+						% prod: recomb  -> total prod
+						%.............................
+						prod=prod + rrec1e(n) + rrec2e(n) + rreci(n) + rreca(n) + useThermal*rrecth(n);
+
+						ArI_Gain(n, Nuse+1) = rrec1e(n) + rrec2e(n) + rreci(n) + rreca(n) + useThermal*rrecth(n);
+						ArI_Loss(n, Nuse+1) = losses(n, Nuse+1)*pop(n);
+
+						% equation
+						%..........
+						pop(n)=(pop(n) + dt*prod) / (1 + Kloss(n)*dt);
+		            		end
+		        	end % n
+
+				%pop = xn0*pop/sum(pop);
+				    
+				% new timestep: calculate deviation
+				%-----------------------------------
+				xmaxdev=0.0;
+				    
+				for n = 2:Nuse
+					if (pop(n) ~= 0.0) || (popold(n) ~= 0.0)
+				        	dev=abs(pop(n) - popold(n))*2 / (pop(n) + popold(n));
+					else
+						dev = 0;
+			 		end
+		
+					if dev > xmaxdev
+						xmaxdev=dev;
+					end
+				end % n (n> 1 != 2, 4)
+				    
+				if it == mult
+					mult=mult+10;
+				end
+				    
+				if xmaxdev < 1.e-6 %then we can exit the loop, we've reached an equilibrium
+					break
+				end
+		        
+			end % it
+
+
+			%keep desired levels from this solution
+			if allCombos
+				level_table(:, Te_i, ne_i, n0_i) = pop(start_level:end_level);
+			else
+				level_table(:, Te_i) = pop(start_level:end_level);
+			end % allCombos
+
+
+			% compute mean free path
+			F_avg = 0;
+			
+			for n = 1:Nuse
+				%F_avg = F_avg + rrec1e_P(n)/xn0 + (sum(kexce_P(n,:)) + sum(kdeexe_P(n,:))*pop(n)/xn0);
+				F_avg = F_avg + rrec1e_P(n)/xn0;
+				F_avg = F_avg + (sum(kexce_P(n,:)) + sum(kdeexe_P(n,:)))*pop(n)/xn0;
+			end
+			
+			m_ar = 40*1.66E-27; %mass of argon kg
+			
+			P_avg = sqrt(2*m_ar*(3/2)*300*1.38E-23); % thermal motion T_ar = 300k
+			
+			T_avg = P_avg/F_avg; % s
+			
+			L_avg = T_avg*P_avg/m_ar;
+		end %n0_i
+        
+	end %ne_i
+
+end %Te_i

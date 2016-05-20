@@ -1,0 +1,341 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     10374,        332]
+NotebookOptionsPosition[      9726,        304]
+NotebookOutlinePosition[     10068,        319]
+CellTagsIndexPosition[     10025,        316]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Sqrt", "[", "Pi", "]"}], "*", "vth"}], ")"}], "^", 
+     RowBox[{"{", 
+      RowBox[{"-", "3"}], "}"}]}], "*", 
+    RowBox[{"Exp", "[", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"vx", "^", "2"}], "+", 
+         RowBox[{"vy", "^", "2"}], "+", 
+         RowBox[{"vz", "^", "2"}]}], ")"}]}], "/", 
+      RowBox[{"vth", "^", "2"}]}], "]"}]}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vx", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vy", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vz", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+   RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"vth", ">", "0"}], ",", 
+      RowBox[{
+       RowBox[{"vth", "^", "2"}], " ", ">", " ", "0"}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.5591468757934656`*^9, 3.559147013565466*^9}, {
+  3.559147063990466*^9, 3.5591471082294655`*^9}, {3.5591471553114657`*^9, 
+  3.559147177869466*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", "1", "}"}]], "Output",
+ CellChangeTimes->{{3.5591469672654657`*^9, 3.5591470157324657`*^9}, {
+  3.5591470649964657`*^9, 3.559147125518466*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{
+   RowBox[{"Integrate", "[", 
+    RowBox[{
+     RowBox[{"vx", "*", "n1", "*", "2", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Sqrt", "[", "Pi", "]"}], "*", "vth"}], ")"}], "^", 
+       RowBox[{"{", 
+        RowBox[{"-", "3"}], "}"}]}], "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"vx", "^", "2"}], "+", 
+           RowBox[{"vy", "^", "2"}], "+", 
+           RowBox[{"vz", "^", "2"}]}], ")"}]}], "/", 
+        RowBox[{"vth", "^", "2"}]}], "]"}]}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vx", ",", " ", 
+       RowBox[{"-", "Infinity"}], ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vy", ",", " ", 
+       RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vz", ",", " ", 
+       RowBox[{"-", "Infinity"}], ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"vth", ">", "0"}], ",", 
+        RowBox[{
+         RowBox[{"vth", "^", "2"}], " ", ">", " ", "0"}]}], "}"}]}]}], "]"}], 
+   "+", 
+   RowBox[{"Integrate", "[", 
+    RowBox[{
+     RowBox[{"vx", "*", "n1", "*", "2", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Sqrt", "[", "Pi", "]"}], "*", "vth"}], ")"}], "^", 
+       RowBox[{"{", 
+        RowBox[{"-", "3"}], "}"}]}], "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"vx", "^", "2"}], "+", 
+           RowBox[{"vy", "^", "2"}], "+", 
+           RowBox[{"vz", "^", "2"}]}], ")"}]}], "/", 
+        RowBox[{"vth", "^", "2"}]}], "]"}]}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vx", ",", " ", "0", ",", " ", "Infinity"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vy", ",", " ", 
+       RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vz", ",", " ", "0", ",", " ", "Infinity"}], "}"}], ",", " ", 
+     RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"vth", ">", "0"}], ",", 
+        RowBox[{
+         RowBox[{"vth", "^", "2"}], " ", ">", " ", "0"}]}], "}"}]}]}], "]"}], 
+   "+", 
+   RowBox[{"Integrate", "[", 
+    RowBox[{
+     RowBox[{"vx", "*", 
+      RowBox[{"(", 
+       RowBox[{"1", "/", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"vx", "^", "2"}], "+", 
+          RowBox[{"vz", "^", "2"}]}], ")"}]}], ")"}], "*", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"n1", "*", 
+         RowBox[{"vz", "^", "2"}]}], " ", "+", " ", 
+        RowBox[{"n1", "*", 
+         RowBox[{"vx", "^", "2"}]}]}], ")"}], "*", "2", 
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Sqrt", "[", "Pi", "]"}], "*", "vth"}], ")"}], "^", 
+       RowBox[{"{", 
+        RowBox[{"-", "3"}], "}"}]}], "*", 
+      RowBox[{"Exp", "[", 
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{"vx", "^", "2"}], "+", 
+           RowBox[{"vy", "^", "2"}], "+", 
+           RowBox[{"vz", "^", "2"}]}], ")"}]}], "/", 
+        RowBox[{"vth", "^", "2"}]}], "]"}]}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vx", ",", " ", "0", ",", " ", "Infinity"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vy", ",", " ", 
+       RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+     RowBox[{"{", 
+      RowBox[{"vz", ",", " ", 
+       RowBox[{"-", "Infinity"}], ",", " ", "0"}], "}"}], ",", " ", 
+     RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"vth", ">", "0"}], ",", 
+        RowBox[{
+         RowBox[{"vth", "^", "2"}], " ", ">", " ", "0"}]}], "}"}]}]}], 
+    "]"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.559147249198466*^9, 3.559147403478466*^9}, 
+   3.559147705240466*^9, {3.559147736103466*^9, 3.5591477685124655`*^9}, {
+   3.559148392848466*^9, 3.559148397929466*^9}, {3.5591605737604656`*^9, 
+   3.559160593103466*^9}, {3.559160630960466*^9, 3.559160644608466*^9}, {
+   3.5591606939844656`*^9, 3.559160695327466*^9}, {3.5591607642884655`*^9, 
+   3.5591607674634657`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  FractionBox[
+   RowBox[{"n1", " ", "vth"}], 
+   RowBox[{"2", " ", 
+    SqrtBox["\[Pi]"]}]], "}"}]], "Output",
+ CellChangeTimes->{
+  3.559147456657466*^9, 3.5591477143144655`*^9, {3.559147754375466*^9, 
+   3.5591477748524656`*^9}, 3.5591484297654657`*^9, {3.559160744810466*^9, 
+   3.5591607716274657`*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{"1", "/", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"vx", "^", "2"}], "+", 
+        RowBox[{"vz", "^", "2"}]}], ")"}]}], ")"}], "*", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"n1", "*", 
+       RowBox[{"vz", "^", "2"}]}], " ", "+", " ", 
+      RowBox[{"n2", "*", 
+       RowBox[{"vx", "^", "2"}]}]}], ")"}], "*", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Sqrt", "[", "Pi", "]"}], "*", "vth"}], ")"}], "^", 
+     RowBox[{"{", 
+      RowBox[{"-", "3"}], "}"}]}], "*", 
+    RowBox[{"Exp", "[", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"vx", "^", "2"}], "+", 
+         RowBox[{"vy", "^", "2"}], "+", 
+         RowBox[{"vz", "^", "2"}]}], ")"}]}], "/", 
+      RowBox[{"vth", "^", "2"}]}], "]"}]}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vx", ",", " ", "0", ",", " ", "Infinity"}], "}"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vy", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vz", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "0"}], "}"}], ",", " ", 
+   RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"vth", ">", "0"}], ",", 
+      RowBox[{
+       RowBox[{"vth", "^", "2"}], " ", ">", " ", "0"}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.5591475178944654`*^9, 3.5591475294234657`*^9}, {
+  3.5591476174164658`*^9, 3.5591476316474657`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  FractionBox[
+   RowBox[{"n1", "+", "n2"}], "8"], "}"}]], "Output",
+ CellChangeTimes->{3.5591475419654655`*^9, 3.5591476540034657`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Integrate", "[", 
+  RowBox[{
+   RowBox[{"n1", "*", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Sqrt", "[", "Pi", "]"}], "*", "vth"}], ")"}], "^", 
+     RowBox[{"{", 
+      RowBox[{"-", "3"}], "}"}]}], "*", 
+    RowBox[{"Exp", "[", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"vx", "^", "2"}], "+", 
+         RowBox[{"vy", "^", "2"}], "+", 
+         RowBox[{"vz", "^", "2"}]}], ")"}]}], "/", 
+      RowBox[{"vth", "^", "2"}]}], "]"}]}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vx", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "0"}], "}"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vy", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "Infinity"}], "}"}], ",", " ", 
+   RowBox[{"{", 
+    RowBox[{"vz", ",", " ", 
+     RowBox[{"-", "Infinity"}], ",", " ", "0"}], "}"}], ",", " ", 
+   RowBox[{"Assumptions", " ", "\[Rule]", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"vth", ">", "0"}], ",", 
+      RowBox[{
+       RowBox[{"vth", "^", "2"}], " ", ">", " ", "0"}]}], "}"}]}]}], 
+  "]"}]], "Input"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  FractionBox["n1", "4"], "}"}]], "Output",
+ CellChangeTimes->{3.559147567183466*^9}]
+}, Open  ]]
+},
+WindowSize->{707, 829},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"8.0 for Microsoft Windows (64-bit) (November 7, 2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 1278, 37, 72, "Input"],
+Cell[1860, 61, 171, 3, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2068, 69, 4281, 119, 232, "Input"],
+Cell[6352, 190, 337, 9, 50, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6726, 204, 1557, 47, 72, "Input"],
+Cell[8286, 253, 165, 4, 47, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8488, 262, 1105, 34, 72, "Input"],
+Cell[9596, 298, 114, 3, 47, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

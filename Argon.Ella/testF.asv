@@ -1,0 +1,10 @@
+function out = testF (in)
+
+out = size(in,1);
+for in_i =  size(in,1);
+    if (in_e > 5)
+        out(in_i) = in(in_.^2;
+    else
+        out = in_e;
+    end
+end

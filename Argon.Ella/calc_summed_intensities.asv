@@ -1,0 +1,35 @@
+function [sums_spec, sums_calc] = calc_summed_intensities(wavelengths, spectrum, calced_lines)
+lineData = [
+    696.5431 2;
+    706.7218 2;
+    738.3980 2;
+    751 3;
+    751.4652 2;
+    763.5106 2;
+    772.4 2;
+    794.8176 2;
+    801 2;
+    811 3;
+    826.4522 2;
+    841.5 3;
+    852.1442 2];
+
+sums_spec = zeros(size(lineData, 1), 1);
+
+sums_calc = [
+    calced_lines(1);
+    calced_lines(2);
+    calced_lines(3);
+    calced_lines(4) + calced_lines(5);
+    calced_lines(6);
+    calced_lines(7(
+    
+
+for i = 1:size(lineData, 1)
+    for w = 1:size(wavelengths, 1)
+        if (wavelengths(w) > lineData(i, 1) - lineData(i, 2) && wavelengths(w) < lineData(i, 1) + lineData(i, 2))
+            sums(i) = sums(i) + spectrum(w);
+        end
+    end
+    
+end

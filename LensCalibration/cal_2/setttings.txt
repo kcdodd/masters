@@ -1,0 +1,14 @@
+200ms
+x50
+
+*positions (cm)*
+2
+7
+12
+17
+22
+27
+32
+37
+
+39cm total window

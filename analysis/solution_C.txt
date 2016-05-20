@@ -1,0 +1,587 @@
+0	9.51324e+17	9.41643e+17	9.21371e+17	8.98394e+17	9.18546e+17	9.42077e+17	9.52746e+17	9.60398e+17	9.68962e+17	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	0	0	0	0	0	0	0	0	0	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+
+0	5.75218	5.63407	4.45614	-1.60104	-8.82513	-10.5359	-10.1186	-9.15965	-7.80355	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+
+0	1.23428e-15	5.57467e-16	1.38582e-15	1.00377e-15	-8.5902e-16	1.77043e-16	-4.43902e-16	7.13561e-19	-1.00395e-15	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+
+0	nan	nan	nan	nan	nan	nan	nan	nan	nan	0	
+0	0	0	0	0	0	0	0	0	0	0	
+

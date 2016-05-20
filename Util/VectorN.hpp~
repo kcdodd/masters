@@ -1,0 +1,515 @@
+/*
+
+
+    Copyright (C) 2013 K. Carter Dodd (carter.dodd@gmail.com)
+
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License as
+    published by the Free Software Foundation; either version 2 of
+    the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+*/
+
+#ifndef __Util_VectorN__
+#define __Util_VectorN__
+
+#include <GeneralError.hpp>
+
+#include <cmath>
+#include <exception>
+#include <vector>
+#include <list>
+
+#include "mtl/lu.h"
+
+namespace Util
+{
+
+    /**
+        General vector class.
+    */
+    template <class scalar_type, unsigned int NumDims>
+    class VectorN
+    {
+    private:
+        /**
+            Components of vector.
+        */
+        scalar_type mComponents[NumDims];
+
+    public:
+
+        /**
+            Default constructor initializing all components to zero.
+        */
+        VectorN()
+        {
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = 0;
+            }
+        }
+
+        /**
+            Constructor initializing all components to the given value.
+        */
+        VectorN(scalar_type init)
+        {
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = init;
+            }
+        }
+
+        /**
+            Constructor initializing components in the order listed in given vector.
+        */
+        VectorN(const std::vector<scalar_type> &components)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = components[i];
+            }
+        }
+
+        /**
+            Constructor initializing components in the order listed in the given array.
+        */
+        VectorN(const scalar_type (&components)[NumDims])
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = components[i];
+            }
+        }
+
+        /**
+            Copy constructor.
+        */
+        template<unsigned int NumDims2>
+        VectorN(const VectorN<scalar_type, NumDims2> &vec)
+        {
+
+            if (NumDims2 > NumDims)
+                throw GeneralError("Attempting to copy a vector which is larger then current vector", __FILE__, __LINE__);
+
+
+            for (unsigned int i = 0; i < NumDims2; i++)
+            {
+                this->mComponents[i] = vec(i);
+            }
+
+            for (unsigned int i = NumDims2; i < NumDims; i++)
+            {
+                this->mComponents[i] = 0;
+            }
+        }
+
+        /**
+            Destructor
+        */
+        ~VectorN()
+        {
+        }
+
+        /**
+            Concatinates the components of a given vector to the end of the this vector, returning
+            the resulting vector with dimensions NumDims + NumDims2
+        */
+        template <unsigned int NumDims2>
+        VectorN<scalar_type, NumDims + NumDims2> concat(const VectorN<scalar_type, NumDims2> &vec) const
+        {
+            VectorN<scalar_type, NumDims + NumDims2> newVec;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                newVec[i] = this->mComponents[i];
+            }
+
+            for (unsigned int i = 0; i < NumDims2; i++)
+            {
+                newVec[i + NumDims] = vec(i);
+            }
+
+            return newVec;
+        }
+
+        /**
+            Returns a subset of the components with dimensions high - low + 1.
+        */
+        template <unsigned int NumDims2>
+        VectorN<scalar_type, NumDims2> sub(unsigned int low, unsigned int high) const
+        {
+            if (high >= NumDims)
+                throw GeneralError("high component is out of bounds", __FILE__, __LINE__);
+
+            if (high - low + 1 != NumDims2)
+                throw GeneralError("range of components is incompatable with requested vector size", __FILE__, __LINE__);
+
+            VectorN<scalar_type, NumDims2> newVec;
+
+            for (unsigned int i = low; i <= high; i++)
+            {
+                newVec[i-low] = this->mComponents[i];
+            }
+
+            return newVec;
+        }
+
+        /**
+            Assignes the components of another vector to this vector.
+        */
+        VectorN& operator= (const VectorN &vec)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = vec.mComponents[i];
+            }
+
+            return *this;
+        }
+
+        /**
+            Assignes the scalar to all the components of this vector.
+        */
+        VectorN& operator= (const scalar_type &num)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = num;
+            }
+
+            return *this;
+        }
+
+        /**
+            Returns a reference to the given component.
+        */
+        scalar_type& operator[] (unsigned int i)
+        {
+            if (i >= NumDims)
+            {
+                throw GeneralError("Attempting to access component out of range", __FILE__, __LINE__);
+            }
+
+            return this->mComponents[i];
+        }
+
+        scalar_type& operator() (unsigned int i)
+        {
+            if (i >= NumDims)
+            {
+                throw GeneralError("Attempting to access component out of range", __FILE__, __LINE__);
+            }
+
+            return this->mComponents[i];
+        }
+
+        /**
+            Returns the value of the given component.
+        */
+        scalar_type operator() (unsigned int i) const
+        {
+            if (i >= NumDims)
+            {
+                throw GeneralError("Attempting to access component out of range", __FILE__, __LINE__);
+            }
+
+            return this->mComponents[i];
+        }
+
+        /**
+            Number of dimensions of vector.
+        */
+        unsigned int numDims () const
+        {
+            return NumDims;
+        }
+
+        /**
+            Magnitude of the vector.
+        */
+        scalar_type magnitude () const
+        {
+            scalar_type total = 0;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                total += (this->mComponents[i])*(this->mComponents[i]);
+            }
+
+            return sqrt(total);
+        }
+
+        /**
+            The square of the magnitude of the vector in case the square root is not necessary.
+        */
+        scalar_type magSquared() const
+        {
+            scalar_type total = 0;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                total += (this->mComponents[i])*(this->mComponents[i]);
+            }
+
+            return total;
+        }
+
+        /**
+            Dot product between two vectors.
+        */
+        scalar_type dot (const VectorN& vec) const
+        {
+
+            scalar_type total = 0;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                total += (this->mComponents[i])*(vec.mComponents[i]);
+            }
+
+            return total;
+        }
+
+        /**
+            Cross product between two vectors with dimension 3.
+
+            computeOrthonormal will work for any number of dimensions > 1 but gives a unit vector.
+        */
+        VectorN cross (const VectorN& vec) const
+        {
+            if (NumDims != 3)
+                throw GeneralError("Cross product is only valid for 3 dimensions", __FILE__, __LINE__);
+
+            VectorN newVec(3);
+
+            newVec[0] = (this->mComponents[1])*(vec.mComponents[2]) - (this->mComponents[2])*(vec.mComponents[1]);
+            newVec[1] = (this->mComponents[2])*(vec.mComponents[0]) - (this->mComponents[0])*(vec.mComponents[2]);
+            newVec[2] = (this->mComponents[0])*(vec.mComponents[1]) - (this->mComponents[1])*(vec.mComponents[0]);
+
+            return newVec;
+        }
+
+        /**
+            Multiplies the components by the scalar value and returns the resulting vector.
+        */
+        VectorN scale(scalar_type s) const
+        {
+            VectorN newVec;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                newVec.mComponents[i] = s*(this->mComponents[i]);
+            }
+
+            return newVec;
+        }
+
+        /**
+            Adds two vectors together a returns the returns the result.
+        */
+        VectorN operator+ (const VectorN& vec) const
+        {
+
+            VectorN newVec;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                newVec.mComponents[i] = this->mComponents[i] + vec.mComponents[i];
+            }
+
+            return newVec;
+        }
+
+        /**
+            Adds another vector to this vector.
+        */
+        void operator+= (const VectorN& vec)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = this->mComponents[i] + vec.mComponents[i];
+            }
+        }
+
+        /**
+            Substracts two vectors and returns the result.
+        */
+        VectorN operator- (const VectorN& vec) const
+        {
+
+            VectorN newVec;
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                newVec.mComponents[i] = this->mComponents[i] - vec.mComponents[i];
+            }
+
+            return newVec;
+
+        }
+
+        /**
+            Subtracts another vector from this vector.
+        */
+        void operator-= (const VectorN& vec)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = this->mComponents[i] - vec.mComponents[i];
+            }
+
+        }
+
+        /**
+            Divides the components by the scalar value and returns the result.
+        */
+        VectorN operator/ (scalar_type s) const
+        {
+            return this->scale(1/s);
+
+        }
+
+        /**
+            Divides the components of this vector by the scalar value.
+        */
+        void operator/= (scalar_type s)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = (this->mComponents[i])/s;
+            }
+
+        }
+
+        /**
+            Multiplies the components of this vector by the scalar value.
+        */
+        void operator*= (scalar_type s)
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                this->mComponents[i] = (this->mComponents[i])*s;
+            }
+
+        }
+
+        /**
+            Multiplies the components by the scalar value and returns the resulting vector.
+        */
+        friend VectorN operator*(scalar_type s, const VectorN& t)
+        {
+            return t.scale(s);
+        }
+
+        /**
+            Multiplies the components by the scalar value and returns the resulting vector.
+        */
+        friend VectorN operator*(const VectorN& t, scalar_type s)
+        {
+            return t.scale(s);
+        }
+
+        /**
+            Tests whether all the components of the two vectors are all equal.
+        */
+        bool operator == (const VectorN& vec) const
+        {
+
+            for (unsigned int i = 0; i < NumDims; i++)
+            {
+                if (vec.mComponents[i] != this->mComponents[i])
+                    return false;
+
+            }
+
+            return true;
+        }
+
+        /**
+            Tests whether all the components of the two vectors are not all equal.
+        */
+        bool operator != (const VectorN& vec)
+        {
+            return !(*this == vec);
+        }
+
+
+        /**
+            Computers a unit vector orthogonal to all the vectors given.
+            must have NumDims-1 independant vectors of dimension NumDims.
+        */
+        static VectorN computeOrthonormal (VectorN const (&vectors)[NumDims-1])
+        {
+
+            VectorN orthoVec;
+
+            for (unsigned int dim = 0; dim < NumDims; dim++)
+            {
+
+                typename mtl::matrix<scalar_type, mtl::rectangle<>, mtl::dense<>, mtl::row_major>::type A (NumDims - 1, NumDims - 1);
+
+                for (unsigned int vec = 0; vec < NumDims-1; vec++)
+                {
+                    int col = 0;
+                    for (unsigned int comp = 0; comp < NumDims; comp++)
+                    {
+                        if (comp != dim)
+                        {
+                            A(vec,col) = (vectors[vec])(comp);
+                            col++;
+                        }
+                    }
+                }
+
+                // compute determinant from trace
+                mtl::dense1D<unsigned int> pvector(A.nrows());
+                mtl::lu_factor(A, pvector);
+
+                scalar_type det = 1;
+                int c = 1;
+
+                for (unsigned int row = 0; row < A.nrows(); row++)
+                {
+                    det *= A(row, row);
+
+                    if (pvector[row] - 1 != row)
+                    {
+                        c *= -1;
+                    }
+                }
+
+                det *= c;
+
+                orthoVec[dim] = pow(-1.0,(int)dim)*det;
+            }
+
+            orthoVec /= orthoVec.magnitude();
+
+            return orthoVec;
+        }
+
+    };
+
+}
+
+#endif
